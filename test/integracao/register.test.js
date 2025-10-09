@@ -26,6 +26,7 @@ describe('Registrar novo usuário', () => {
             expect(resposta.status).to.equal(400);
         })
 
+        
+
     })
 })
-
