@@ -11,7 +11,7 @@ describe('Listar transferencia', () => {
     const loginResponse = await request(process.env.BASE_URL)
       .post('/users/login')
       .send({
-        username: 'julio',
+        username: 'julio.lima',
         password: '123456'
       });
 
@@ -22,7 +22,7 @@ describe('Listar transferencia', () => {
 
   });
 
-  it('Deve retornar 200 e uma lista de transferências', async () => {
+  it.only('Deve retornar 200 e uma lista de transferências', async () => {
     const res = await request(process.env.BASE_URL)
       .get('/transfers')
       .set('Authorization', `Bearer ${token}`)

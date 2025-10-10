@@ -7,6 +7,8 @@ describe('Registrar novo usuário', () => {
     describe('POST /users/register', () => {
         it('Deve retornar 201 quando usuário for criado com sucesso', async () => {
             const bodyRegister = { ...postRegister }
+            bodyRegister.username = "ze.lima"
+            bodyRegister.password = "123456"
             const resposta = await request(process.env.BASE_URL)
                 .post('/users/register')
                 .set('Content-Type', 'application/json')
