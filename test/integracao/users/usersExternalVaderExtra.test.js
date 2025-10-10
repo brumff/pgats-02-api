@@ -2,11 +2,11 @@ const request = require("supertest");
 const { expect } = require("chai");
 require("dotenv").config();
 
-describe("Users - Externo (VADER Extra)", () => {
+describe("Usuários - Externo (VADER Extra)", () => {
   const BASE_URL = process.env.BASE_URL_REST || "http://localhost:3000";
 
   describe("GET /users - VADER complementares", () => {
-    it("Content negotiation: mesmo com Accept XML retorna JSON", async () => {
+    it("deve garantir negociação de conteúdo: mesmo com Accept XML retorna JSON", async () => {
       const res = await request(BASE_URL)
         .get("/users")
         .set("Accept", "application/xml");
@@ -16,7 +16,7 @@ describe("Users - Externo (VADER Extra)", () => {
       expect(res.body).to.be.an("array");
     });
 
-    it("Accept text/plain ainda retorna JSON", async () => {
+    it("deve retornar JSON mesmo com Accept text/plain", async () => {
       const res = await request(BASE_URL)
         .get("/users")
         .set("Accept", "text/plain");
@@ -24,7 +24,7 @@ describe("Users - Externo (VADER Extra)", () => {
       expect(res.headers["content-type"]).to.include("application/json");
     });
 
-    it("Tempo de resposta aceitável (< 1000ms)", async () => {
+    it("deve ter tempo de resposta aceitável (< 1000ms)", async () => {
       const start = Date.now();
       const res = await request(BASE_URL).get("/users");
       const duration = Date.now() - start;
@@ -32,14 +32,14 @@ describe("Users - Externo (VADER Extra)", () => {
       expect(duration).to.be.below(1000);
     });
 
-    it("Usernames são únicos", async () => {
+    it("deve garantir que usernames são únicos", async () => {
       const res = await request(BASE_URL).get("/users");
       const usernames = res.body.map((u) => u.username);
       const set = new Set(usernames);
       expect(set.size).to.equal(usernames.length);
     });
 
-    it("Somente campos permitidos estão presentes (username, favorecidos, saldo)", async () => {
+    it("deve conter somente campos permitidos (username, favorecidos, saldo)", async () => {
       const res = await request(BASE_URL).get("/users");
       const allowed = ["username", "favorecidos", "saldo"];
       res.body.forEach((u) => {
@@ -48,7 +48,7 @@ describe("Users - Externo (VADER Extra)", () => {
       });
     });
 
-    it("Todos os favorecidos são strings", async () => {
+    it("deve garantir que todos os favorecidos são strings", async () => {
       const res = await request(BASE_URL).get("/users");
       res.body.forEach((u) => {
         expect(u.favorecidos).to.be.an("array");
@@ -56,7 +56,7 @@ describe("Users - Externo (VADER Extra)", () => {
       });
     });
 
-    it("PATCH em /users retorna 404 (método não suportado)", async () => {
+    it("deve retornar 404 para PATCH em /users (método não suportado)", async () => {
       const patchRes = await request(BASE_URL).patch("/users").send({});
       expect(patchRes.status).to.equal(404);
     });

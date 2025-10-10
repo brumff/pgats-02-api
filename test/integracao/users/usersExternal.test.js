@@ -2,11 +2,11 @@ const request = require('supertest');
 const { expect } = require('chai');
 require('dotenv').config();
 
-describe('Users - Externo', () => {
+describe('Usuários - Externo', () => {
   const BASE_URL = process.env.BASE_URL_REST || 'http://localhost:3000';
 
   describe('GET /users', () => {
-    it('Retorna 200 e uma lista de usuários em JSON', async () => {
+    it('deve retornar 200 e uma lista de usuários em JSON', async () => {
       const res = await request(BASE_URL)
         .get('/users')
         .set('Accept', 'application/json');
@@ -25,7 +25,7 @@ describe('Users - Externo', () => {
       });
     });
 
-    it('Com token inválido ainda retorna 200 (rota pública)', async () => {
+    it('com token inválido ainda deve retornar 200 (rota pública)', async () => {
       const res = await request(BASE_URL)
         .get('/users')
         .set('Authorization', 'Bearer token_invalido');
@@ -34,7 +34,7 @@ describe('Users - Externo', () => {
       expect(res.body).to.be.an('array');
     });
 
-    it('Idempotência: duas chamadas consecutivas retornam mesmo conteúdo', async () => {
+    it('deve garantir idempotência: duas chamadas consecutivas retornam mesmo conteúdo', async () => {
       const res1 = await request(BASE_URL).get('/users');
       const res2 = await request(BASE_URL).get('/users');
 
@@ -43,14 +43,14 @@ describe('Users - Externo', () => {
       expect(res1.body).to.deep.equal(res2.body);
     });
 
-    it('Lista inicial contém usuários conhecidos (julio e priscila)', async () => {
+    it('lista inicial deve conter usuários conhecidos (julio e priscila)', async () => {
       const res = await request(BASE_URL).get('/users');
       const usernames = res.body.map((u) => u.username);
       expect(usernames).to.include('julio');
       expect(usernames).to.include('priscila');
     });
 
-    it('Após registrar novo usuário, GET /users inclui o novo registro', async () => {
+    it('após registrar novo usuário, GET /users deve incluir o novo registro', async () => {
       const novoUsuario = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
       const registro = await request(BASE_URL)
         .post('/users/register')
@@ -64,7 +64,7 @@ describe('Users - Externo', () => {
       expect(usernames).to.include(novoUsuario);
     });
 
-    it('Métodos não suportados em /users retornam 404', async () => {
+    it('métodos não suportados em /users devem retornar 404', async () => {
       const postRes = await request(BASE_URL).post('/users').send({});
       const putRes = await request(BASE_URL).put('/users').send({});
       const delRes = await request(BASE_URL).delete('/users');

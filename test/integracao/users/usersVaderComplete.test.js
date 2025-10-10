@@ -3,12 +3,12 @@ const { expect } = require('chai');
 
 const BASE_URL = process.env.BASE_URL_REST || 'http://localhost:3000';
 
-describe('Users - VADER Methodology Complete', () => {
+describe('Usuários - Metodologia VADER Completa', () => {
   
   // ========================================
   // V - VERBS (Verbos HTTP)
   // ========================================
-  describe('V - Verbs: Métodos HTTP para /users', () => {
+  describe('V - Verbos: Métodos HTTP para /users', () => {
     
     it('GET /users deve retornar 200 (método suportado)', async () => {
       const response = await request(BASE_URL)
@@ -58,7 +58,7 @@ describe('Users - VADER Methodology Complete', () => {
   // ========================================
   // A - AUTHORIZATION (Autorização)
   // ========================================
-  describe('A - Authorization: Controle de acesso para /users', () => {
+  describe('A - Autorização: Controle de acesso para /users', () => {
     
     it('GET /users sem token deve retornar 200 (endpoint público)', async () => {
       const response = await request(BASE_URL)
@@ -109,7 +109,7 @@ describe('Users - VADER Methodology Complete', () => {
   // ========================================
   // D - DATA (Dados)
   // ========================================
-  describe('D - Data: Validação de dados para /users', () => {
+  describe('D - Dados: Validação de dados para /users', () => {
     
     it('GET /users deve retornar Content-Type application/json', async () => {
       const response = await request(BASE_URL)
@@ -192,9 +192,9 @@ describe('Users - VADER Methodology Complete', () => {
   // ========================================
   // E - ERRORS (Erros)
   // ========================================
-  describe('E - Errors: Códigos de erro para /users', () => {
+  describe('E - Erros: Tratamento de erros para /users', () => {
     
-    it('GET /users/invalid-endpoint deve retornar 404', async () => {
+    it('GET /users/inexistente deve retornar 404', async () => {
       await request(BASE_URL)
         .get('/users/invalid-endpoint')
         .expect(404);
@@ -249,11 +249,11 @@ describe('Users - VADER Methodology Complete', () => {
   });
 
   // ========================================
-  // R - RESPONSIVENESS (Capacidade de Resposta)
+  // R - RESPONSIVENESS (Responsividade)
   // ========================================
-  describe('R - Responsiveness: Performance para /users', () => {
+  describe('R - Responsividade: Performance e tempo de resposta para /users', () => {
     
-    it('GET /users deve responder em menos de 1000ms', async () => {
+    it('GET /users deve responder em menos de 2 segundos', async () => {
       const startTime = Date.now();
       
       await request(BASE_URL)
